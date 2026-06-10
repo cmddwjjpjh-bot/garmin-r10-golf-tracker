@@ -93,10 +93,26 @@ function savePractice(){
     lowPointClean: practice.low.filter(v=>v==="✓").length,
     playableDrives: practice.driver.filter(v=>v==="P").length,
     coursePenalties: practice.course.filter(v=>v==="P").length,
-    raw: JSON.stringify(practice)
+    raw: "Saved from phone/app - summary only"
   };
+
   saveLocal(session);
-  sendToSheet("practice", [session]).then(ok => {
+
+  const sheetSession = {
+    date: session.date,
+    location: session.location,
+    focus: session.focus,
+    rating: session.rating,
+    strikeScore: session.strikeScore,
+    lowPointClean: session.lowPointClean,
+    playableDrives: session.playableDrives,
+    coursePenalties: session.coursePenalties,
+    typicalMiss: session.typicalMiss,
+    nextFocus: session.nextFocus,
+    raw: session.raw
+  };
+
+  sendToSheet("practice", [sheetSession]).then(ok => {
     alert(ok ? "Practice saved locally and to Google Sheets." : "Practice saved locally. Google Sheets sync not configured or failed.");
   });
 }
