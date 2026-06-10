@@ -1,14 +1,364 @@
-*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f5f7fb;color:#172033}
-header{background:#0f172a;color:white;padding:18px 22px}h1{margin:0;font-size:25px}header p{margin:4px 0 0;color:#cbd5e1}
-main{max-width:1200px;margin:18px auto;padding:0 14px}.card{background:white;border:1px solid #d8dee9;border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-h2{margin:0 0 10px}.muted{color:#5b6473;font-size:14px}.row{display:flex;gap:8px}.row input{flex:1}
-input,select{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:8px;margin-top:4px}label{font-size:13px;font-weight:700}
-button{background:#2563eb;color:white;border:0;border-radius:8px;padding:9px 12px;font-weight:700;cursor:pointer}.secondary{background:#64748b}.danger{background:#dc2626}
-.tabs{display:flex;gap:8px;margin-bottom:14px}.tab{background:#e2e8f0;color:#172033}.tab.active{background:#2563eb;color:white}
-.tabPanel{display:none}.tabPanel.active{display:block}.grid{display:grid;gap:10px}.setup{grid-template-columns:repeat(4,1fr)}
-table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid #d8dee9;padding:6px;font-size:13px;text-align:left}th{background:#eef2f7}.tableWrap{overflow:auto}
-.blocks{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:14px 0}.miniBlock{border:1px solid #d8dee9;border-radius:12px;padding:10px}.miniBlock h3{margin:0}.miniBlock p{margin:4px 0 8px;color:#64748b;font-size:13px}
-.buttonGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px}.shotBtn{background:#f1f5f9;color:#172033;border:1px solid #cbd5e1;padding:7px 5px}.shotBtn.done{background:#bbf7d0}.shotBtn.bad{background:#fecaca}.shotBtn.mid{background:#fde68a}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status{margin-top:10px;font-size:14px}.ok{color:#0f766e}.warn{color:#b45309}.err{color:#b91c1c}
-.historyItem{border:1px solid #d8dee9;border-radius:10px;background:#fafafa;margin:8px 0;padding:10px;display:flex;justify-content:space-between;gap:8px}
-@media(max-width:850px){.setup,.blocks{grid-template-columns:1fr}.row{display:block}.tabs{flex-wrap:wrap}}
+*{box-sizing:border-box}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  background:#f5f7fb;
+  color:#172033;
+}
+
+header{
+  background:#0f172a;
+  color:white;
+  padding:18px 22px;
+}
+
+h1{
+  margin:0;
+  font-size:25px;
+}
+
+header p{
+  margin:4px 0 0;
+  color:#cbd5e1;
+}
+
+main{
+  max-width:1200px;
+  margin:18px auto;
+  padding:0 14px;
+}
+
+.card{
+  background:white;
+  border:1px solid #d8dee9;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+}
+
+h2{
+  margin:0 0 10px;
+}
+
+.muted{
+  color:#5b6473;
+  font-size:14px;
+}
+
+.smallLegend{
+  line-height:1.45;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+}
+
+.row input{
+  flex:1;
+}
+
+input,select{
+  width:100%;
+  padding:8px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  margin-top:4px;
+}
+
+label{
+  font-size:13px;
+  font-weight:700;
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:0;
+  border-radius:8px;
+  padding:9px 12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.secondary{
+  background:#64748b;
+}
+
+.danger{
+  background:#dc2626;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
+}
+
+.tab{
+  background:#e2e8f0;
+  color:#172033;
+}
+
+.tab.active{
+  background:#2563eb;
+  color:white;
+}
+
+.tabPanel{
+  display:none;
+}
+
+.tabPanel.active{
+  display:block;
+}
+
+.grid{
+  display:grid;
+  gap:10px;
+}
+
+.setup{
+  grid-template-columns:repeat(4,1fr);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  border:1px solid #d8dee9;
+  padding:6px;
+  font-size:13px;
+  text-align:left;
+}
+
+th{
+  background:#eef2f7;
+}
+
+.tableWrap{
+  overflow:auto;
+}
+
+.blocks{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:14px 0;
+}
+
+.miniBlock{
+  border:1px solid #d8dee9;
+  border-radius:12px;
+  padding:10px;
+}
+
+.miniBlock h3{
+  margin:0;
+}
+
+.miniBlock p{
+  margin:4px 0 8px;
+  color:#64748b;
+  font-size:13px;
+}
+
+.buttonGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  margin-bottom:8px;
+}
+
+.shotBtn{
+  background:#f1f5f9;
+  color:#172033;
+  border:1px solid #cbd5e1;
+  padding:7px 5px;
+}
+
+.shotBtn.done{
+  background:#bbf7d0;
+}
+
+.shotBtn.bad{
+  background:#fecaca;
+}
+
+.shotBtn.mid{
+  background:#fde68a;
+}
+
+/* Tanglewood 4 course simulation */
+.courseSimBlock{
+  grid-column:1 / -1;
+}
+
+.courseSimCards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.courseHoleCard{
+  border:1px solid #cbd5e1;
+  background:#f8fafc;
+  border-radius:12px;
+  padding:10px;
+}
+
+.holeHeader{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  border-bottom:1px solid #d8dee9;
+  padding-bottom:6px;
+  margin-bottom:8px;
+  font-size:14px;
+}
+
+.holeHeader strong{
+  font-size:16px;
+}
+
+.courseFields{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.courseChecks{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+}
+
+.courseChecks label{
+  background:white;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  padding:7px 5px;
+  text-align:center;
+  font-size:12px;
+}
+
+.courseChecks input{
+  width:auto;
+  margin:0 3px 0 0;
+}
+
+.courseSummary{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid #d8dee9;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.status{
+  margin-top:10px;
+  font-size:14px;
+}
+
+.ok{
+  color:#0f766e;
+}
+
+.warn{
+  color:#b45309;
+}
+
+.err{
+  color:#b91c1c;
+}
+
+.historyItem{
+  border:1px solid #d8dee9;
+  border-radius:10px;
+  background:#fafafa;
+  margin:8px 0;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+
+@media(max-width:850px){
+  .setup,
+  .blocks,
+  .courseSimCards{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    display:block;
+  }
+
+  .row button{
+    margin-top:8px;
+    width:100%;
+  }
+
+  .tabs{
+    flex-wrap:wrap;
+  }
+
+  .tab{
+    flex:1;
+  }
+
+  .courseFields{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .courseChecks{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .holeHeader{
+    font-size:13px;
+  }
+}
+
+@media(max-width:430px){
+  main{
+    padding:0 10px;
+  }
+
+  .card{
+    padding:12px;
+  }
+
+  .courseFields{
+    grid-template-columns:1fr;
+  }
+
+  .courseChecks{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .courseSummary{
+    display:block;
+  }
+
+  .courseSummary strong{
+    display:block;
+    margin-bottom:4px;
+  }
+}
