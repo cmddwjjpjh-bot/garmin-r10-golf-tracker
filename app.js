@@ -245,12 +245,19 @@ function saveLocal(obj){
 }
 
 async function sendToSheet(type, rows){
-  const url=localStorage.getItem("scriptUrl");
-  if(!url) return false;
+  const baseUrl = localStorage.getItem("scriptUrl");
+  if(!baseUrl) return false;
+
+  const payload = encodeURIComponent(JSON.stringify({type, rows}));
+  const url = baseUrl + "?payload=" + payload;
+
   try{
-    const res=await fetch(url,{method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain"}, body:JSON.stringify({type, rows})});
+    await fetch(url, { method: "GET", mode: "no-cors" });
     return true;
-  }catch(e){ console.error(e); return false; }
+  }catch(e){
+    console.error(e);
+    return false;
+  }
 }
 
 async function testSync(){
