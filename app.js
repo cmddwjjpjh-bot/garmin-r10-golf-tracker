@@ -276,20 +276,20 @@ async function sendToSheet(type, rows){
   const url = baseUrl + "?payload=" + payload + "&cacheBust=" + Date.now();
 
   try{
-    window._syncBeacons = window._syncBeacons || [];
-    const img = new Image();
-    img.src = url;
-    window._syncBeacons.push(img);
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = url;
+    document.body.appendChild(iframe);
+
+    setTimeout(() => {
+      try { iframe.remove(); } catch(e) {}
+    }, 15000);
+
     return true;
   }catch(e){
     console.error(e);
     return false;
   }
-}
-
-async function testSync(){
-  const ok=await sendToSheet("test", [{message:"Golf Tracker sync test", date:new Date().toISOString()}]);
-  setStatus("syncStatus", ok ? "Sync request sent. Check your Google Sheet for a test row." : "Sync failed or URL missing.", ok?"ok":"err");
 }
 
 function renderHistory(){
