@@ -118,13 +118,10 @@ function savePractice(){
     + "&nextFocus=" + encodeURIComponent(session.nextFocus)
     + "&cacheBust=" + Date.now();
 
-  window._practiceBeacons = window._practiceBeacons || [];
-  const img = new Image();
-  img.src = url;
-  window._practiceBeacons.push(img);
-
-  alert("Practice saved locally and sent to Google Sheets.");
+  window.open(url, "_blank");
+  alert("Practice saved locally. A Google sync tab was opened.");
 }
+
 function parseCsv(text){
   const rows=[]; let row=[], cell="", inQuotes=false;
   for(let i=0;i<text.length;i++){
@@ -248,7 +245,7 @@ function saveSummaries(){
   if(!lastSummaries.length){ setStatus("csvStatus","Analyze a CSV first.","err"); return; }
   lastSummaries.forEach(saveLocal);
   sendToSheet("stock", lastSummaries).then(ok=>{
-    setStatus("csvStatus", ok ? "Saved stock summaries locally and to Google Sheets." : "Saved locally. Google Sheets sync not configured or failed.", ok?"ok":"warn");
+    setStatus("csvStatus", ok ? "Saved stock summaries locally. A Google sync tab was opened." : "Saved locally. Google Sheets sync not configured or failed.", ok?"ok":"warn");
     renderHistory();
   });
 }
@@ -276,20 +273,17 @@ async function sendToSheet(type, rows){
   const url = baseUrl + "?payload=" + payload + "&cacheBust=" + Date.now();
 
   try{
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = url;
-    document.body.appendChild(iframe);
-
-    setTimeout(() => {
-      try { iframe.remove(); } catch(e) {}
-    }, 15000);
-
+    window.open(url, "_blank");
     return true;
   }catch(e){
     console.error(e);
     return false;
   }
+}
+
+async function testSync(){
+  const ok = await sendToSheet("test", [{message:"Golf Tracker sync test", date:new Date().toISOString()}]);
+  setStatus("syncStatus", ok ? "Sync request sent. A Google sync tab was opened." : "Sync failed or URL missing.", ok ? "ok" : "err");
 }
 
 function renderHistory(){
