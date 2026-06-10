@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Garmin R10 Golf Tracker</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Garmin R10 Golf Tracker</h1>
+    <p>Practice tracking + multi-club stock yardage summaries from Garmin CSV exports.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Google Sheets Sync</h2>
+    <p class="muted">Paste your deployed Google Apps Script Web App URL below. Without it, the app still works locally on this device.</p>
+    <div class="row">
+      <input id="scriptUrl" placeholder="Google Apps Script Web App URL"/>
+      <button id="saveUrlBtn">Save URL</button>
+      <button id="testSyncBtn" class="secondary">Test Sync</button>
+    </div>
+    <div id="syncStatus" class="status"></div>
+  </section>
+
+  <section class="tabs">
+    <button class="tab active" data-tab="practice">Practice Session</button>
+    <button class="tab" data-tab="csv">Garmin CSV Import</button>
+    <button class="tab" data-tab="history">History</button>
+  </section>
+
+  <section id="practice" class="tabPanel active">
+    <div class="card">
+      <h2>1-Hour Practice Session</h2>
+      <div class="grid setup">
+        <label>Date <input id="practiceDate" type="date"></label>
+        <label>Location <input id="practiceLocation" placeholder="Range / course"></label>
+        <label>Focus <input id="practiceFocus" placeholder="Ball striking, driver, etc."></label>
+        <label>Rating 1-10 <input id="practiceRating" type="number" min="1" max="10"></label>
+      </div>
+
+      <table class="plan">
+        <thead><tr><th>Block</th><th>Time</th><th>Club</th><th>Goal</th></tr></thead>
+        <tbody>
+          <tr><td>Warm Up</td><td>10 min</td><td>PW / 7i</td><td>Tempo and balance</td></tr>
+          <tr><td>Strike Training</td><td>15 min</td><td>7i</td><td>30+ / 40 strike score</td></tr>
+          <tr><td>Low Point</td><td>10 min</td><td>7i</td><td>12+ / 15 clean</td></tr>
+          <tr><td>Driver</td><td>15 min</td><td>Driver</td><td>14+ / 20 playable</td></tr>
+          <tr><td>Course Sim</td><td>10 min</td><td>Mixed</td><td>Routine and decisions</td></tr>
+        </tbody>
+      </table>
+
+      <div class="blocks">
+        <div class="miniBlock">
+          <h3>Strike Training</h3>
+          <p>2=center, 1=slight miss, 0=miss</p>
+          <div id="strikeButtons" class="buttonGrid"></div>
+          <strong id="strikeScore">0 / 40</strong>
+        </div>
+        <div class="miniBlock">
+          <h3>Low Point</h3>
+          <p>✓=ball first, X=fat/thin</p>
+          <div id="lowPointButtons" class="buttonGrid"></div>
+          <strong id="lowPointScore">0 / 15 clean</strong>
+        </div>
+        <div class="miniBlock">
+          <h3>Driver</h3>
+          <p>P=playable, U=unplayable</p>
+          <div id="driverButtons" class="buttonGrid"></div>
+          <strong id="driverScore">0 / 20 playable</strong>
+        </div>
+        <div class="miniBlock">
+          <h3>Course Simulation</h3>
+          <p>F=fairway, G=green, R=recovery, P=penalty</p>
+          <div id="courseButtons" class="buttonGrid"></div>
+          <strong id="courseScore">0 penalties</strong>
+        </div>
+      </div>
+
+      <div class="grid setup">
+        <label>Typical Miss <input id="typicalMiss" placeholder="left, right, thin, toe, etc."></label>
+        <label>Next Focus <input id="nextFocus" placeholder="What to work on next"></label>
+      </div>
+      <div class="actions">
+        <button id="savePracticeBtn">Save Practice Session</button>
+        <button id="resetPracticeBtn" class="secondary">Reset Inputs</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="csv" class="tabPanel">
+    <div class="card">
+      <h2>Garmin CSV Import — Multi-Club Stock Yardage</h2>
+      <p class="muted">Upload one Garmin CSV with one or many clubs. The app groups by club and summarizes each club independently.</p>
+      <div class="grid setup">
+        <label>Session Date <input id="csvDate" type="date"></label>
+        <label>Location <input id="csvLocation" placeholder="Range / course"></label>
+        <label>Filter Mode
+          <select id="filterMode">
+            <option value="obvious">Remove obvious mishits</option>
+            <option value="worst1">Remove worst 1 carry per club</option>
+            <option value="worst2">Remove worst 2 carries per club</option>
+            <option value="all">Use all shots</option>
+          </select>
+        </label>
+        <label>Notes <input id="csvNotes" placeholder="Range balls, after round, weather, etc."></label>
+      </div>
+      <input id="csvFile" type="file" accept=".csv,text/csv"/>
+      <div class="actions">
+        <button id="parseCsvBtn">Analyze CSV</button>
+        <button id="saveSummariesBtn" class="secondary">Save Summaries to Sheet</button>
+        <button id="downloadSummaryBtn" class="secondary">Download Summary CSV</button>
+      </div>
+      <div id="csvStatus" class="status"></div>
+      <div class="tableWrap">
+        <table id="summaryTable">
+          <thead>
+            <tr>
+              <th>Club</th><th>Shots</th><th>Clean</th><th>Stock Carry</th><th>Median Carry</th><th>Carry Range</th>
+              <th>Total</th><th>Apex ft</th><th>Spin</th><th>Club mph</th><th>Ball mph</th><th>Smash</th><th>Offline Avg</th><th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="history" class="tabPanel">
+    <div class="card">
+      <h2>Local History</h2>
+      <p class="muted">This shows sessions stored on this device. Google Sheets is your cross-device record.</p>
+      <div id="historyList"></div>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
