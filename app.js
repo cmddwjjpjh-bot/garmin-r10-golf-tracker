@@ -93,30 +93,38 @@ function savePractice(){
     lowPointClean: practice.low.filter(v=>v==="✓").length,
     playableDrives: practice.driver.filter(v=>v==="P").length,
     coursePenalties: practice.course.filter(v=>v==="P").length,
-    raw: "Saved from phone/app - summary only"
+    raw: "practiceLite app save"
   };
 
   saveLocal(session);
 
-  const sheetSession = {
-    date: session.date,
-    location: session.location,
-    focus: session.focus,
-    rating: session.rating,
-    strikeScore: session.strikeScore,
-    lowPointClean: session.lowPointClean,
-    playableDrives: session.playableDrives,
-    coursePenalties: session.coursePenalties,
-    typicalMiss: session.typicalMiss,
-    nextFocus: session.nextFocus,
-    raw: session.raw
-  };
+  const baseUrl = localStorage.getItem("scriptUrl");
+  if(!baseUrl){
+    alert("Practice saved locally. Google Sheets URL missing.");
+    return;
+  }
 
-  sendToSheet("practice", [sheetSession]).then(ok => {
-    alert(ok ? "Practice saved locally and to Google Sheets." : "Practice saved locally. Google Sheets sync not configured or failed.");
-  });
+  const url = baseUrl
+    + "?type=practiceLite"
+    + "&date=" + encodeURIComponent(session.date)
+    + "&location=" + encodeURIComponent(session.location)
+    + "&focus=" + encodeURIComponent(session.focus)
+    + "&rating=" + encodeURIComponent(session.rating)
+    + "&strikeScore=" + encodeURIComponent(session.strikeScore)
+    + "&lowPointClean=" + encodeURIComponent(session.lowPointClean)
+    + "&playableDrives=" + encodeURIComponent(session.playableDrives)
+    + "&coursePenalties=" + encodeURIComponent(session.coursePenalties)
+    + "&typicalMiss=" + encodeURIComponent(session.typicalMiss)
+    + "&nextFocus=" + encodeURIComponent(session.nextFocus)
+    + "&cacheBust=" + Date.now();
+
+  window._practiceBeacons = window._practiceBeacons || [];
+  const img = new Image();
+  img.src = url;
+  window._practiceBeacons.push(img);
+
+  alert("Practice saved locally and sent to Google Sheets.");
 }
-
 function parseCsv(text){
   const rows=[]; let row=[], cell="", inQuotes=false;
   for(let i=0;i<text.length;i++){
