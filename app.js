@@ -249,10 +249,13 @@ async function sendToSheet(type, rows){
   if(!baseUrl) return false;
 
   const payload = encodeURIComponent(JSON.stringify({type, rows}));
-  const url = baseUrl + "?payload=" + payload;
+  const url = baseUrl + "?payload=" + payload + "&cacheBust=" + Date.now();
 
   try{
-    await fetch(url, { method: "GET", mode: "no-cors" });
+    window._syncBeacons = window._syncBeacons || [];
+    const img = new Image();
+    img.src = url;
+    window._syncBeacons.push(img);
     return true;
   }catch(e){
     console.error(e);
