@@ -35,6 +35,7 @@
   <section id="practice" class="tabPanel active">
     <div class="card">
       <h2>1-Hour Practice Session</h2>
+
       <div class="grid setup">
         <label>Date <input id="practiceDate" type="date"></label>
         <label>Location <input id="practiceLocation" placeholder="Range / course"></label>
@@ -43,13 +44,20 @@
       </div>
 
       <table class="plan">
-        <thead><tr><th>Block</th><th>Time</th><th>Club</th><th>Goal</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Block</th>
+            <th>Time</th>
+            <th>Club</th>
+            <th>Goal</th>
+          </tr>
+        </thead>
         <tbody>
           <tr><td>Warm Up</td><td>10 min</td><td>PW / 7i</td><td>Tempo and balance</td></tr>
           <tr><td>Strike Training</td><td>15 min</td><td>7i</td><td>30+ / 40 strike score</td></tr>
           <tr><td>Low Point</td><td>10 min</td><td>7i</td><td>12+ / 15 clean</td></tr>
           <tr><td>Driver</td><td>15 min</td><td>Driver</td><td>14+ / 20 playable</td></tr>
-          <tr><td>Course Sim</td><td>10 min</td><td>Mixed</td><td>Routine and decisions</td></tr>
+          <tr><td>Tanglewood 4</td><td>10 min</td><td>Mixed</td><td>Scoring, decisions, misses</td></tr>
         </tbody>
       </table>
 
@@ -60,23 +68,190 @@
           <div id="strikeButtons" class="buttonGrid"></div>
           <strong id="strikeScore">0 / 40</strong>
         </div>
+
         <div class="miniBlock">
           <h3>Low Point</h3>
           <p>✓=ball first, X=fat/thin</p>
           <div id="lowPointButtons" class="buttonGrid"></div>
           <strong id="lowPointScore">0 / 15 clean</strong>
         </div>
+
         <div class="miniBlock">
           <h3>Driver</h3>
           <p>P=playable, U=unplayable</p>
           <div id="driverButtons" class="buttonGrid"></div>
           <strong id="driverScore">0 / 20 playable</strong>
         </div>
-        <div class="miniBlock">
-          <h3>Course Simulation</h3>
-          <p>F=fairway, G=green, R=recovery, P=penalty</p>
-          <div id="courseButtons" class="buttonGrid"></div>
-          <strong id="courseScore">0 penalties</strong>
+
+        <div class="miniBlock courseSimBlock">
+          <h3>Course Sim — Tanglewood 4</h3>
+          <p class="muted smallLegend">
+            Tee: P=playable, N=no/trouble<br>
+            Dir: L/R only if target missed<br>
+            G=GIR, Rec=recovery, Pen=penalty, 3P=3-putt, BD=bad decision
+          </p>
+
+          <div id="courseSimCards" class="courseSimCards">
+
+            <div class="courseHoleCard" data-hole="2">
+              <div class="holeHeader">
+                <strong>Hole 2</strong>
+                <span>Par 5</span>
+                <span>485 yds</span>
+              </div>
+
+              <div class="courseFields">
+                <label>Score
+                  <input id="h2Score" type="number" inputmode="numeric" min="1" max="12">
+                </label>
+
+                <label>Tee
+                  <select id="h2Tee">
+                    <option value="">—</option>
+                    <option value="P">P</option>
+                    <option value="N">N</option>
+                  </select>
+                </label>
+
+                <label>Dir
+                  <select id="h2Dir">
+                    <option value="">—</option>
+                    <option value="L">L</option>
+                    <option value="R">R</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="courseChecks">
+                <label><input id="h2G" type="checkbox"> G</label>
+                <label><input id="h2Rec" type="checkbox"> Rec</label>
+                <label><input id="h2Pen" type="checkbox"> Pen</label>
+                <label><input id="h2ThreePutt" type="checkbox"> 3P</label>
+                <label><input id="h2BD" type="checkbox"> BD</label>
+              </div>
+            </div>
+
+            <div class="courseHoleCard" data-hole="3">
+              <div class="holeHeader">
+                <strong>Hole 3</strong>
+                <span>Par 4</span>
+                <span>337 yds</span>
+              </div>
+
+              <div class="courseFields">
+                <label>Score
+                  <input id="h3Score" type="number" inputmode="numeric" min="1" max="12">
+                </label>
+
+                <label>Tee
+                  <select id="h3Tee">
+                    <option value="">—</option>
+                    <option value="P">P</option>
+                    <option value="N">N</option>
+                  </select>
+                </label>
+
+                <label>Dir
+                  <select id="h3Dir">
+                    <option value="">—</option>
+                    <option value="L">L</option>
+                    <option value="R">R</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="courseChecks">
+                <label><input id="h3G" type="checkbox"> G</label>
+                <label><input id="h3Rec" type="checkbox"> Rec</label>
+                <label><input id="h3Pen" type="checkbox"> Pen</label>
+                <label><input id="h3ThreePutt" type="checkbox"> 3P</label>
+                <label><input id="h3BD" type="checkbox"> BD</label>
+              </div>
+            </div>
+
+            <div class="courseHoleCard" data-hole="5">
+              <div class="holeHeader">
+                <strong>Hole 5</strong>
+                <span>Par 4</span>
+                <span>335 yds</span>
+              </div>
+
+              <div class="courseFields">
+                <label>Score
+                  <input id="h5Score" type="number" inputmode="numeric" min="1" max="12">
+                </label>
+
+                <label>Tee
+                  <select id="h5Tee">
+                    <option value="">—</option>
+                    <option value="P">P</option>
+                    <option value="N">N</option>
+                  </select>
+                </label>
+
+                <label>Dir
+                  <select id="h5Dir">
+                    <option value="">—</option>
+                    <option value="L">L</option>
+                    <option value="R">R</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="courseChecks">
+                <label><input id="h5G" type="checkbox"> G</label>
+                <label><input id="h5Rec" type="checkbox"> Rec</label>
+                <label><input id="h5Pen" type="checkbox"> Pen</label>
+                <label><input id="h5ThreePutt" type="checkbox"> 3P</label>
+                <label><input id="h5BD" type="checkbox"> BD</label>
+              </div>
+            </div>
+
+            <div class="courseHoleCard" data-hole="16">
+              <div class="holeHeader">
+                <strong>Hole 16</strong>
+                <span>Par 3</span>
+                <span>144 yds</span>
+              </div>
+
+              <div class="courseFields">
+                <label>Score
+                  <input id="h16Score" type="number" inputmode="numeric" min="1" max="12">
+                </label>
+
+                <label>Tee
+                  <select id="h16Tee">
+                    <option value="">—</option>
+                    <option value="P">P</option>
+                    <option value="N">N</option>
+                  </select>
+                </label>
+
+                <label>Dir
+                  <select id="h16Dir">
+                    <option value="">—</option>
+                    <option value="L">L</option>
+                    <option value="R">R</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="courseChecks">
+                <label><input id="h16G" type="checkbox"> G</label>
+                <label><input id="h16Rec" type="checkbox"> Rec</label>
+                <label><input id="h16Pen" type="checkbox"> Pen</label>
+                <label><input id="h16ThreePutt" type="checkbox"> 3P</label>
+                <label><input id="h16BD" type="checkbox"> BD</label>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="courseSummary">
+            <strong>Total Par: 16</strong>
+            <strong id="courseTotalScore">Total Score: —</strong>
+            <strong id="courseVsPar">Vs Par: —</strong>
+          </div>
         </div>
       </div>
 
@@ -84,6 +259,7 @@
         <label>Typical Miss <input id="typicalMiss" placeholder="left, right, thin, toe, etc."></label>
         <label>Next Focus <input id="nextFocus" placeholder="What to work on next"></label>
       </div>
+
       <div class="actions">
         <button id="savePracticeBtn">Save Practice Session</button>
         <button id="resetPracticeBtn" class="secondary">Reset Inputs</button>
@@ -95,9 +271,11 @@
     <div class="card">
       <h2>Garmin CSV Import — Multi-Club Stock Yardage</h2>
       <p class="muted">Upload one Garmin CSV with one or many clubs. The app groups by club and summarizes each club independently.</p>
+
       <div class="grid setup">
         <label>Session Date <input id="csvDate" type="date"></label>
         <label>Location <input id="csvLocation" placeholder="Range / course"></label>
+
         <label>Filter Mode
           <select id="filterMode">
             <option value="obvious">Remove obvious mishits</option>
@@ -106,21 +284,38 @@
             <option value="all">Use all shots</option>
           </select>
         </label>
+
         <label>Notes <input id="csvNotes" placeholder="Range balls, after round, weather, etc."></label>
       </div>
+
       <input id="csvFile" type="file" accept=".csv,text/csv"/>
+
       <div class="actions">
         <button id="parseCsvBtn">Analyze CSV</button>
         <button id="saveSummariesBtn" class="secondary">Save Summaries to Sheet</button>
         <button id="downloadSummaryBtn" class="secondary">Download Summary CSV</button>
       </div>
+
       <div id="csvStatus" class="status"></div>
+
       <div class="tableWrap">
         <table id="summaryTable">
           <thead>
             <tr>
-              <th>Club</th><th>Shots</th><th>Clean</th><th>Stock Carry</th><th>Median Carry</th><th>Carry Range</th>
-              <th>Total</th><th>Apex ft</th><th>Spin</th><th>Club mph</th><th>Ball mph</th><th>Smash</th><th>Offline Avg</th><th>Confidence</th>
+              <th>Club</th>
+              <th>Shots</th>
+              <th>Clean</th>
+              <th>Stock Carry</th>
+              <th>Median Carry</th>
+              <th>Carry Range</th>
+              <th>Total</th>
+              <th>Apex ft</th>
+              <th>Spin</th>
+              <th>Club mph</th>
+              <th>Ball mph</th>
+              <th>Smash</th>
+              <th>Offline Avg</th>
+              <th>Confidence</th>
             </tr>
           </thead>
           <tbody></tbody>
