@@ -124,7 +124,8 @@ function setupCourseSimListeners(){
       `${h.key}Rec`,
       `${h.key}Pen`,
       `${h.key}ThreePutt`,
-      `${h.key}BD`
+      `${h.key}BD`,
+      `${h.key}HO`
     ].forEach(id => {
       const el = $(id);
       if(el) el.addEventListener("change", updateCourseSimSummary);
@@ -149,6 +150,7 @@ function getCourseSimData(){
     h2Pen: $("h2Pen")?.checked ? "Y" : "",
     h2ThreePutt: $("h2ThreePutt")?.checked ? "Y" : "",
     h2BD: $("h2BD")?.checked ? "Y" : "",
+    h2HO: $("h2HO")?.checked ? "Y" : "",
 
     h3Score: $("h3Score")?.value || "",
     h3Tee: $("h3Tee")?.value || "",
@@ -158,6 +160,7 @@ function getCourseSimData(){
     h3Pen: $("h3Pen")?.checked ? "Y" : "",
     h3ThreePutt: $("h3ThreePutt")?.checked ? "Y" : "",
     h3BD: $("h3BD")?.checked ? "Y" : "",
+    h3HO: $("h3HO")?.checked ? "Y" : "",
 
     h5Score: $("h5Score")?.value || "",
     h5Tee: $("h5Tee")?.value || "",
@@ -167,6 +170,7 @@ function getCourseSimData(){
     h5Pen: $("h5Pen")?.checked ? "Y" : "",
     h5ThreePutt: $("h5ThreePutt")?.checked ? "Y" : "",
     h5BD: $("h5BD")?.checked ? "Y" : "",
+    h5HO: $("h5HO")?.checked ? "Y" : "",
 
     h16Score: $("h16Score")?.value || "",
     h16Tee: $("h16Tee")?.value || "",
@@ -176,6 +180,7 @@ function getCourseSimData(){
     h16Pen: $("h16Pen")?.checked ? "Y" : "",
     h16ThreePutt: $("h16ThreePutt")?.checked ? "Y" : "",
     h16BD: $("h16BD")?.checked ? "Y" : "",
+    h16HO: $("h16HO")?.checked ? "Y" : "",
 
     totalPar,
     totalScore: "",
@@ -248,7 +253,8 @@ function resetPractice(){
       `${h.key}Rec`,
       `${h.key}Pen`,
       `${h.key}ThreePutt`,
-      `${h.key}BD`
+      `${h.key}BD`,
+      `${h.key}HO`
     ].forEach(id => {
       const el = $(id);
       if(el) el.checked = false;
@@ -279,7 +285,7 @@ function savePractice(){
     lowPointClean: practice.low.filter(v=>v==="✓").length,
     playableDrives: practice.driver.filter(v=>v==="P").length,
     coursePenalties: coursePenalties,
-    raw: "practiceLite app save + Tanglewood course sim"
+    raw: "fullPracticeLite app save + Tanglewood course sim"
   };
 
   saveLocal(session);
@@ -292,8 +298,8 @@ function savePractice(){
     return;
   }
 
-  const practiceUrl = baseUrl
-    + "?type=practiceLite"
+  const url = baseUrl
+    + "?type=fullPracticeLite"
     + "&date=" + encodeURIComponent(session.date)
     + "&location=" + encodeURIComponent(session.location)
     + "&focus=" + encodeURIComponent(session.focus)
@@ -304,12 +310,6 @@ function savePractice(){
     + "&coursePenalties=" + encodeURIComponent(session.coursePenalties)
     + "&typicalMiss=" + encodeURIComponent(session.typicalMiss)
     + "&nextFocus=" + encodeURIComponent(session.nextFocus)
-    + "&cacheBust=" + Date.now();
-
-  const courseUrl = baseUrl
-    + "?type=courseSimLite"
-    + "&date=" + encodeURIComponent(courseSim.date)
-    + "&location=" + encodeURIComponent(courseSim.location)
     + "&h2Score=" + encodeURIComponent(courseSim.h2Score)
     + "&h2Tee=" + encodeURIComponent(courseSim.h2Tee)
     + "&h2Dir=" + encodeURIComponent(courseSim.h2Dir)
@@ -318,6 +318,7 @@ function savePractice(){
     + "&h2Pen=" + encodeURIComponent(courseSim.h2Pen)
     + "&h2ThreePutt=" + encodeURIComponent(courseSim.h2ThreePutt)
     + "&h2BD=" + encodeURIComponent(courseSim.h2BD)
+    + "&h2HO=" + encodeURIComponent(courseSim.h2HO)
     + "&h3Score=" + encodeURIComponent(courseSim.h3Score)
     + "&h3Tee=" + encodeURIComponent(courseSim.h3Tee)
     + "&h3Dir=" + encodeURIComponent(courseSim.h3Dir)
@@ -326,6 +327,7 @@ function savePractice(){
     + "&h3Pen=" + encodeURIComponent(courseSim.h3Pen)
     + "&h3ThreePutt=" + encodeURIComponent(courseSim.h3ThreePutt)
     + "&h3BD=" + encodeURIComponent(courseSim.h3BD)
+    + "&h3HO=" + encodeURIComponent(courseSim.h3HO)
     + "&h5Score=" + encodeURIComponent(courseSim.h5Score)
     + "&h5Tee=" + encodeURIComponent(courseSim.h5Tee)
     + "&h5Dir=" + encodeURIComponent(courseSim.h5Dir)
@@ -334,6 +336,7 @@ function savePractice(){
     + "&h5Pen=" + encodeURIComponent(courseSim.h5Pen)
     + "&h5ThreePutt=" + encodeURIComponent(courseSim.h5ThreePutt)
     + "&h5BD=" + encodeURIComponent(courseSim.h5BD)
+    + "&h5HO=" + encodeURIComponent(courseSim.h5HO)
     + "&h16Score=" + encodeURIComponent(courseSim.h16Score)
     + "&h16Tee=" + encodeURIComponent(courseSim.h16Tee)
     + "&h16Dir=" + encodeURIComponent(courseSim.h16Dir)
@@ -342,17 +345,14 @@ function savePractice(){
     + "&h16Pen=" + encodeURIComponent(courseSim.h16Pen)
     + "&h16ThreePutt=" + encodeURIComponent(courseSim.h16ThreePutt)
     + "&h16BD=" + encodeURIComponent(courseSim.h16BD)
+    + "&h16HO=" + encodeURIComponent(courseSim.h16HO)
     + "&totalScore=" + encodeURIComponent(courseSim.totalScore)
     + "&vsPar=" + encodeURIComponent(courseSim.vsPar)
     + "&cacheBust=" + Date.now();
 
-  window.open(practiceUrl, "_blank");
+  window.open(url, "_blank");
 
-  setTimeout(() => {
-    window.open(courseUrl, "_blank");
-  }, 700);
-
-  alert("Practice saved locally. Two Google sync tabs will open: one for PracticeSessions and one for TanglewoodCourseSim.");
+  alert("Practice and Tanglewood course sim saved locally. One Google sync tab was opened.");
 }
 
 function parseCsv(text){
